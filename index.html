@@ -1,0 +1,102 @@
+ <!DOCTYPE html>
+<html lang="pt">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap-4.0.0/dist/css/bootstrap.min.css">
+
+    <title>mCalc</title>
+
+    <style media="screen">
+      .gdient{
+        background: #fffc00;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #ffffff, #fffc00);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #ffffff, #fffc00); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+    </style>
+
+  </head>
+  <body style="background-image: url('bg.png')">
+    <div class="container" style="padding-top: 50px">
+      <!-- Content here -->
+      <div class="alert gdient" style="color: grey" role="alert">
+        <strong>😂 Calculadora de Megas de 3.</strong>
+      </div>
+
+      <div class="card text-center">
+        <div class="card-header">
+          Inserir dados.
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Comé preguiçoso,</h5>
+          <div style="margin-left: 5px; margin-right: 5px">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Quantos?</span>
+              </div>
+              <input type="number" class="form-control" id="mb">
+              <div class="input-group-append">
+                <span class="input-group-text">MB</span>
+              </div>
+            </div>
+            <small class="form-text text-muted">Sabendo que: 3 MT = 70 MB.</small>
+          </div>
+
+          <button onclick="calc()" id="detbutton" class="btn btn-primary">Determinar!</button>
+        </div>
+        <div class="card-footer text-muted" id="x">
+          Precisas de ___ MT
+        </div>
+      </div>
+      <br>
+      <span class="badge badge-pill badge-light">© 2017, Feito por Kishan Nareshpal.</span>
+    </div>
+
+
+    <script type="text/javascript">
+
+    function isFloat(n) {
+       return n % 1 !== 0;
+    }
+
+    function calc(){
+      var mb = document.getElementById('mb').value;
+      var go = document.getElementById('detbutton');
+      var x = document.getElementById('x');
+
+      if(mb == ""){
+        alert("Por favor insira quantos megabytes queres no campo de texto para continuar. Obrigado!");
+      } else {
+
+        if(mb < 70){
+          alert("Insira um valor igual ou superior a 70 MB");
+        } else{
+          var formula = (3*mb)/70
+          var ceil = Math.ceil(formula);
+          var reminder = (ceil/3)-((ceil/3)%1);
+
+          if (isFloat(ceil/3)) {
+            var total = (3*reminder)+3;
+            var megas = (total/3)*70;
+          } else {
+            var total = (3*reminder);
+            var megas = (total/3)*70;
+          }
+
+          // alert(total);
+          x.innerHTML="Precisas de <strong>" + total + "</strong> MT.<br>E ficarás com <strong>" + megas + "</strong> MB."
+        }
+      }
+    }
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>
