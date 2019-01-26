@@ -26,7 +26,7 @@
     <div class="container" style="padding-top: 50px">
       <!-- Content here -->
       <div class="alert gdient" style="color: grey" role="alert">
-        <strong>😂 Calculadora de Megas de 3.</strong>
+        <strong>Calculadora de Megas de 10mt.</strong>
       </div>
 
       <div class="card text-center">
@@ -45,7 +45,7 @@
                 <span class="input-group-text">MB</span>
               </div>
             </div>
-            <small class="form-text text-muted">Sabendo que: 3 MT = 70 MB.</small>
+            <small class="form-text text-muted">Sabendo que: 10 MT = 250 MB.</small>
           </div>
 
           <button onclick="calc()" id="detbutton" class="btn btn-primary">Determinar!</button>
@@ -74,19 +74,20 @@
         alert("Por favor insira quantos megabytes queres no campo de texto para continuar. Obrigado!");
       } else {
 
-        if(mb < 70){
+        if(mb < 250){
+
           alert("Insira um valor igual ou superior a 70 MB");
         } else{
-          var formula = (3*mb)/70
+          var formula = (10*mb)/250
           var ceil = Math.ceil(formula);
-          var reminder = (ceil/3)-((ceil/3)%1);
+          var reminder = (ceil/10)-((ceil/10)%1);
 
-          if (isFloat(ceil/3)) {
-            var total = (3*reminder)+3;
-            var megas = (total/3)*70;
+          if (isFloat(ceil/10)) {
+            var total = (10*reminder)+10;
+            var megas = (total/10)*250;
           } else {
-            var total = (3*reminder);
-            var megas = (total/3)*70;
+            var total = (10*reminder);
+            var megas = (total/10)*250;
           }
 
           // alert(total);
