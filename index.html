@@ -1,108 +1,94 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt">
+
 <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="bootstrap-4.0.0/dist/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
+    <title>Calculadora de Megas</title>
+</head>
 
-
-    <title>mCalc</title>
-
-    <style media="screen">
-      .gdient{
-        background: #fffc00;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #ffffff, #fffc00);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #ffffff, #fffc00); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    }
-    </style>
-
-  </head>
-  <body style="background-image: url('bg.png')">
-    <div class="container" style="padding-top: 50px">
-      <!-- Content here -->
-      <div class="alert gdient" style="color: grey" role="alert">
-        <strong>Calculadora de Megas de 10mt.</strong>
-      </div>
-
-      <div class="card text-center">
-        <div class="card-header">
-          Inserir dados.
+<body style="background: #1C1F23">
+    <div id="app" class="container mt-5">
+        <div class="text-light">
+            <img src="assets/images/calculator.svg" width="64px" alt="">
         </div>
-        <div class="card-body">
-          <h5 class="card-title">Comé preguiçoso,</h5>
-          <div style="margin-left: 5px; margin-right: 5px">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Quantos?</span>
-              </div>
-              <input type="number" class="form-control" id="mb">
-              <div class="input-group-append">
-                <span class="input-group-text">MB</span>
-              </div>
+
+        <div class="row align-items-end mt-5">
+            <div class="col">
+                <h1 class="text-light display-2">
+                    Uma simples<br> 
+                    calculadora<br>
+                    de megas.
+                </h1>
             </div>
-            <small class="form-text text-muted">Sabendo que: 10 MT = 250 MB.</small>
-          </div>
+            <div class="col text-muted">
+                <h5><i>O que faz?</i></h5>
+                <h3>
+                    Determina quanto <span style="cursor: help;" title="Calão, significa: Dinheiro">taco</span><br> tu precisas de gastar<br> para comprar <u style="cursor: help;">x</u> megas.
+                </h3>
 
-          <button onclick="calc()" id="detbutton" class="btn btn-primary">Determinar!</button>
+                <h5 class="mt-4"><i>Megas?</i></h5>
+                <h3>
+                    Pacote de dados de internet!
+                </h3>
+            </div>
         </div>
-        <div class="card-footer text-muted" id="x">
-          Precisas de ___ MT
+
+        <div class="mt-5 text-light">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-12">
+                    <input v-model="inputMegas" @input="onInputCalculate" class="input" type="number" placeholder="Queres quantos megas?">
+                </div>
+            </div>
+            <p class="mt-3 text-muted text-center">Sabendo que <Editable @input="onInputCalculate" :class="{isInvalid: megasPrice <= 0}" v-model="inputMegasPrice"></Editable> MT são <Editable @input="onInputCalculate" :class="{isInvalid: megasForPrice <= 0}" v-model="inputMegasForPrice"></Editable> MB</p>
         </div>
-      </div>
-      <br>
-      <span class="badge badge-pill badge-light">© 2017, Feito por Kishan Nareshpal.</span>
+
+        <div class="mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5 col-12">
+                    <div :class="{'result-card': true, 'p-4': true, 'active': isResultActive}">
+                        <div class="row">
+                            <div class="col-auto">
+                                <div class="currency text-center">
+                                    <img src="assets/images/coins.svg" width="50px" alt="">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <h5 class="m-0">Para teres {{ mb }} MB precisas de:</h5>
+                                    <h3 class="m-0"> {{ calculatedPrice }} MT</h3>
+                                    <div class="small">
+                                        que são um total de<span v-if="!calculatedExtraMegas"> exactamente</span> <span style="font-weight: 800;">{{ calculatedMegas }} MB </span>
+                                    </div>
+                                    <div v-if="calculatedExtraMegas" class="small" style="color: black;font-weight: 700">
+                                        E ainda vais restar com {{ calculatedExtraMegas }} MB extra!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+
+        <div class="mt-5 mb-4">
+            <small style="font-weight: 800;" class="mt-5 text-muted">© 2021, Feito por <a class="text-reset text-decoration-none" href="https://kishanjadav.com">Kishan Nareshpal</a></small>
+        </div>
     </div>
 
 
-    <script type="text/javascript">
+    <!-- JS -->
+    <script src="app.js"></script>
+    
+</body>
 
-    function isFloat(n) {
-       return n % 1 !== 0;
-    }
-
-    function calc(){
-      var mb = document.getElementById('mb').value;
-      var go = document.getElementById('detbutton');
-      var x = document.getElementById('x');
-
-      if(mb == ""){
-        alert("Por favor insira quantos megabytes queres no campo de texto para continuar. Obrigado!");
-      } else {
-
-        if(mb < 250){
-
-          alert("Insira um valor igual ou superior a 70 MB");
-        } else{
-          var formula = (10*mb)/250
-          var ceil = Math.ceil(formula);
-          var reminder = (ceil/10)-((ceil/10)%1);
-
-          if (isFloat(ceil/10)) {
-            var total = (10*reminder)+10;
-            var megas = (total/10)*250;
-          } else {
-            var total = (10*reminder);
-            var megas = (total/10)*250;
-          }
-
-          // alert(total);
-          x.innerHTML="Precisas de <strong>" + total + "</strong> MT.<br>E ficarás com <strong>" + megas + "</strong> MB."
-        }
-      }
-    }
-    </script>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <!-- <script src="bootstrap-4.0.0/dist/js/bootstrap.min.js"></script> -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-  </body>
 </html>
